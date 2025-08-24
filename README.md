@@ -52,12 +52,10 @@ First, nano into the yml file
 sudo nano /etc/elasticsearch/elasticsearch.yml
 Find the network.host line and change its value to 0.0.0.0.
 
-# ---------------------------------- Network -----------------------------------
-#
-# Set the address and port where this node will be reachable.
-#
+---------------------------------- Network -----------------------------------
+Set the address and port where this node will be reachable.
 network.host: 0.0.0.0
-Save the file and exit the editor.
+Save the file by doing Ctrl+X then do enter followed by Y
  
 # Step 5. Enable and Start Elasticsearch
 use the systemctl command
@@ -81,13 +79,11 @@ Then, Install Scrapy and the Elasticsearch Client, requied the scrape the web fo
 pip install Scrapy elasticsearch
 Create a Scrapy Project
 
-Bash
-
 scrapy startproject search_crawler
 cd search_crawler
-Create a Spider
 
-Create a file search_crawler/spiders/web_spider.py with the following code. This spider will crawl a website and send the extracted data to Elasticsearch.
+# Step 6.5 Create the spider
+First, create a file search_crawler/spiders/web_spider.py with the following code. This spider will crawl a website and send the extracted data to Elasticsearch.
 
 Python
 
@@ -113,31 +109,24 @@ class WebSpider(scrapy.Spider):
         # Follow all links on the page
         for link in response.css('a::attr(href)'):
             yield response.follow(link, self.parse)
-Run the Spider
-
-Bash
-
+# Step 7. Run the Spider
+Start by doing 
 scrapy crawl web
 This will start crawling the website and sending the data to your Elasticsearch instance.
 
-Step 4: Build a Simple Front End
+# Step 8. Build a Simple Front End
+This is crusal for displaying the webiste and its information
 You'll use Node.js and Express to create a simple web server that serves a basic search interface.
 
-Install Node.js
-
-Bash
-
+First, install Node.js
 sudo apt install nodejs npm -y
-Create a Project Directory and Install Dependencies
-
-Bash
-
+Then, create a Project Directory and Install Dependencies
 mkdir search_frontend && cd search_frontend
 npm init -y
 npm install express elasticsearch
-Create a Server Script
+Create a Server Script that users will use to interact with ui elements
 
-Create a file server.js with the following content. This script handles search queries and serves the front-end page.
+Create a file server.js with the following content below. This script handles search queries and serves the front-end page.
 
 JavaScript
 
@@ -175,8 +164,7 @@ app.post('/search', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening at http://<your-public-ip>:${port}`);
 });
-Create the Front-End Page
-
+Create the Front-End Page that users will use to see the page
 Create a public directory and an index.html file inside it.
 
 HTML
@@ -220,9 +208,7 @@ HTML
     </script>
 </body>
 </html>
-Start the Server
-
-Bash
-
+# Last Step Start the Server
 node server.js
-Your search engine will now be accessible from your web browser at http://<your-public-ip>:3000.
+thats it
+Your search engine will now be accessible from your web browser at http://your-public-ip:3000.
