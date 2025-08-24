@@ -1,7 +1,6 @@
 # Linode Seach Engine
 A project made to help user make a search engine on linode
-# The Guide
-Step 1: Set Up and Secure Your Linode VM
+# The Guide Requirments
 This guide requies you to have a Linode account and to have a created Ubuntu 24.04 LTS VM.
 # Step #1. Connect to Your VM via SSH
 ssh root@your-public-ip
