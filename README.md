@@ -2,47 +2,29 @@
 A project made to help user make a search engine on linode
 # The Guide
 Step 1: Set Up and Secure Your Linode VM
-First, you need to create your Linode VM and secure it. This guide assumes you have a Linode account and have created a new Ubuntu 24.04 LTS VM.
-
-Connect to Your VM via SSH
-
-Replace <your-public-ip> with the public IP address of your Linode VM.
-
-Bash
-
+This guide requies you to have a Linode account and to have a created Ubuntu 24.04 LTS VM.
+# Step #1. Connect to Your VM via SSH
 ssh root@<your-public-ip>
-Create a New User with sudo Privileges
+Replace <your-public-ip> with the public IP address of your Linode VM.
+it is recamended you create a New User profile with sudo Privileges
 
-Working as a non-root user is a security best practice.
-
-Bash
-
+here's how to add a user if you want to add a user 
 adduser <your-username>
 usermod -aG sudo <your-username>
-Once you've done this, log out and back in as your new user.
+Once you've done this, log out of root and back in as your new user.
 
-Update Your System
+heres how to update Your ubuntu system
+sudo apt update && sudo apt upgrade -y
 
-Bash
-
-sudo apt update
-sudo apt upgrade -y
-Configure UFW Firewall
-
+Configure UFW Firewall *optinal 
 This allows only necessary traffic (SSH, HTTP, and HTTPS).
-
-Bash
-
 sudo ufw allow ssh
 sudo ufw allow http
 sudo ufw allow https
 sudo ufw enable
-Step 2: Install Elasticsearch and Java
+
+Install Elasticsearch and Java
 Elasticsearch is a powerful search and analytics engine that requires Java.
-
-Install the OpenJDK
-
-Bash
 
 sudo apt install openjdk-17-jre -y
 Add Elasticsearch GPG Key
