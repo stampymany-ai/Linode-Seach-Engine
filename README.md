@@ -4,59 +4,53 @@ A project made to help user make a search engine on linode
 Step 1: Set Up and Secure Your Linode VM
 This guide requies you to have a Linode account and to have a created Ubuntu 24.04 LTS VM.
 # Step #1. Connect to Your VM via SSH
-ssh root@<your-public-ip>
-Replace <your-public-ip> with the public IP address of your Linode VM.
+ssh root@your-public-ip
+Replace your-public-ip with the public IP address of your Linode VM.
 it is recamended you create a New User profile with sudo Privileges
-
 here's how to add a user if you want to add a user 
-adduser <your-username>
-usermod -aG sudo <your-username>
+adduser [your-username]
+usermod -aG sudo [your-username]
 Once you've done this, log out of root and back in as your new user.
 
-heres how to update Your ubuntu system
+# Step #1.5 how to update your ubuntu vm
 sudo apt update && sudo apt upgrade -y
+its that simple
 
-Configure UFW Firewall *optinal 
+# Step #2. Configure UFW Firewall *optinal 
+
+skip to step three if you dont want to do this part
+
 This allows only necessary traffic (SSH, HTTP, and HTTPS).
 sudo ufw allow ssh
 sudo ufw allow http
 sudo ufw allow https
 sudo ufw enable
 
-Install Elasticsearch and Java
+# Step 3. Install Elasticsearch and Java
 Elasticsearch is a powerful search and analytics engine that requires Java.
-
 sudo apt install openjdk-17-jre -y
 Add Elasticsearch GPG Key
-
 This adds the key needed to verify the authenticity of the Elasticsearch package.
-
-Bash
-
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-Add the Elasticsearch Repository
 
-This adds the official repository to your system's sources.
-
-Bash
-
+# Step 3.5 Add the Elasticsearch Repository
 echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
-Install Elasticsearch
 
-Bash
+Install Elasticsearch
+to do this First, update the ubuntu packages
 
 sudo apt update
+then run the install command
+
 sudo apt install elasticsearch -y
-Configure Elasticsearch to Bind to Your Public IP
+
+# Step 4. Configure Elasticsearch to Bind to Your Public IP
 
 This allows you to access Elasticsearch from outside your VM.
-
-Bash
+First, nano into the yml file
 
 sudo nano /etc/elasticsearch/elasticsearch.yml
 Find the network.host line and change its value to 0.0.0.0.
-
-YAML
 
 # ---------------------------------- Network -----------------------------------
 #
@@ -64,37 +58,25 @@ YAML
 #
 network.host: 0.0.0.0
 Save the file and exit the editor.
-
-Enable and Start Elasticsearch
-
-Bash
-
+ 
+# Step 5. Enable and Start Elasticsearch
+use the systemctl command
 sudo systemctl enable elasticsearch.service
 sudo systemctl start elasticsearch.service
 Verify that Elasticsearch is running and listening on port 9200 by running this command on your local machine:
-
-Bash
-
 curl http://<your-public-ip>:9200
 You should see a JSON response.
 
-Step 3: Set Up a Web Crawler (Scrapy)
+# Step 6. Set Up a Web Crawler (Scrapy)
 You'll use Scrapy, a powerful Python framework, to build a web crawler.
-
-Install Python, Pip, and Virtualenv
-
-Bash
+to get started First, install Python, Pip, and Virtualenv
 
 sudo apt install python3 python3-pip python3-venv -y
-Create and Activate a Virtual Environment
-
-Bash
+Next, Create and Activate a Virtual Environment that the scrapy will use
 
 python3 -m venv ~/scrapy_env
 source ~/scrapy_env/bin/activate
-Install Scrapy and the Elasticsearch Client
-
-Bash
+Then, Install Scrapy and the Elasticsearch Client, requied the scrape the web for urls
 
 pip install Scrapy elasticsearch
 Create a Scrapy Project
