@@ -1,9 +1,6 @@
 # Linode Seach Engine
 A project made to help user make a search engine on linode
 # The Guide
-Creating a Search Engine on Linode: A Complete Guide
-This guide provides a step-by-step walkthrough for building a basic search engine on a Linode Virtual Machine (VM). We'll use Elasticsearch as the core search engine and Scrapy for web crawling.
-
 Step 1: Set Up and Secure Your Linode VM
 First, you need to create your Linode VM and secure it. This guide assumes you have a Linode account and have created a new Ubuntu 24.04 LTS VM.
 
